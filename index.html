@@ -46,9 +46,6 @@
         var scoreElement = document.getElementById(scoreId);
         var currentScore = parseInt(scoreElement.textContent);
         var newScore = currentScore + adjustment;
-        if (newScore < 0) newScore = 0; // 防止分数为负
-        scoreElement.textContent = newScore;
-    }
 </script>
 
 </body>
