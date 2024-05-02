@@ -27,14 +27,12 @@
         <button onclick="adjustScore('score1', 1)">+</button>
         <button onclick="adjustScore('score1', -1)">-</button>
     </div>
-    <br>
     <div class="player" id="player2">
         <h3>玩家2</h3>
         <p>分数: <span id="score2">0</span></p>
         <button onclick="adjustScore('score2', 1)">+</button>
         <button onclick="adjustScore('score2', -1)">-</button>
     </div>
-    <br>
     <div class="player" id="player3">
         <h3>玩家3</h3>
         <p>分数: <span id="score3">0</span></p>
@@ -48,6 +46,8 @@
         var scoreElement = document.getElementById(scoreId);
         var currentScore = parseInt(scoreElement.textContent);
         var newScore = currentScore + adjustment;
+        scoreElement.textContent = newScore;
+    }
 </script>
 
 </body>
