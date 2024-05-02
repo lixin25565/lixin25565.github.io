@@ -1,52 +1,41 @@
+ 
 <!DOCTYPE html>
-<html>
+<html lang="zh">
 <head>
-	<title>斗地主计分板</title>
-	<style>
-		table {
-			border-collapse: collapse;
-		}
-		th, td {
-			border: 1px solid black;
-			padding: 5px;
-		}
-	</style>
+<meta charset="UTF-8">
+<title>斗地主计分板</title>
+<style>
+    .player-score {
+        margin: 10px 0;
+    }
+</style>
 </head>
 <body>
-	<h1>斗地主计分板</h1>
-	<table id="scoreboard">
-		<tr>
-			<th>玩家</th>
-			<th>得分</th>
-		</tr>
-		<tr>
-			<td>Player1</td>
-			<td id="player1_score">0</td>
-		</tr>
-		<tr>
-			<td>Player2</td>
-			<td id="player2_score">0</td>
-		</tr>
-		<tr>
-			<td>Player3</td>
-			<td id="player3_score">0</td>
-		</tr>
-	</table>
-	<br>
-	<button onclick="addPoints('Player1', 10)">给Player1加10分</button>
-	<button onclick="subtractPoints('Player2', 5)">给Player2减5分</button>
-	<script>
-		function addPoints(player, points) {
-			var scoreElement = document.getElementById(player + "_score");
-			var currentScore = parseInt(scoreElement.innerText);
-			scoreElement.innerText = currentScore + points;
-		}
 
-		function subtractPoints(player, points) {
-			var scoreElement = document.getElementById(player + "_score");
-			var currentScore = parseInt(scoreElement.innerText);
-			scoreElement.innerText = currentScore - points;
-		}
-	</script>
+<h1>斗地主计分板</h1>
+
+<div class="player-score">
+    <label for="player1">玩家1:</label>
+    <input type="number" id="player1" value="0">
+    <button onclick="adjustScore('player1')">调整分数</button>
+    <span id="scorePlayer1">0</span>
+</div>
+
+<div class="player-score">
+    <label for="player2">玩家2:</label>
+    <input type="number" id="player2" value="0">
+    <button onclick="adjustScore('player2')">调整分数</button>
+    <span id="scorePlayer2">0</span>
+</div>
+
+<div class="player-score">
+    <label for="player3">玩家3:</label>
+    <input type="number" id="player3" value="0">
+    <button onclick="adjustScore('player3')">调整分数</button>
+    <span id="scorePlayer3">0</span>
+</div>
+
+<script src="scoreboard.js"></script>
 </body>
 </html>
+ 
