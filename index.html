@@ -59,35 +59,48 @@
     </style>
 </head>
 <body>
-
-<div class="player-scoreboard">
-    <div class="player" id="player1">
-        <h3>玩家1</h3>
-        <p>分数: <span id="score1">0</span></p>
-        <button onclick="adjustScore('score1', 1)">+</button>
-        <button onclick="adjustScore('score1', -1)">-</button>
-    </div>
-    <div class="player" id="player2">
-        <h3>玩家2</h3>
-        <p>分数: <span id="score2">0</span></p>
-        <button onclick="adjustScore('score2', 1)">+</button>
-        <button onclick="adjustScore('score2', -1)">-</button>
-    </div>
-    <div class="player" id="player3">
-        <h3>玩家3</h3>
-        <p>分数: <span id="score3">0</span></p>
-        <button onclick="adjustScore('score3', 1)">+</button>
-        <button onclick="adjustScore('score3', -1)">-</button>
-    </div>
-</div>
+<button id="addPlayer">添加玩家</button>
+<div id="playerContainer"></div>
 
 <script>
-    function adjustScore(scoreId, adjustment) {
-        var scoreElement = document.getElementById(scoreId);
+    function createPlayerBoard(playerNum) {
+        return `
+            <div class="player" id="player${playerNum}">
+                <h3>玩家${playerNum}</h3>
+                <p>分数: <span id="score${playerNum}">0</span></p>
+                <button onclick="adjustScore(${playerNum}, 1)">+</button>
+                <button onclick="adjustScore(${playerNum}, -1)">-</button>
+                <button onclick="removePlayer(${playerNum})">移除</button>
+            </div>
+        `;
+    }
+
+    function adjustScore(playerNum, adjustment) {
+        var scoreElement = document.getElementById(`score${playerNum}`);
         var currentScore = parseInt(scoreElement.textContent);
         var newScore = currentScore + adjustment;
         scoreElement.textContent = newScore;
     }
+
+    function addPlayer() {
+        let playerNum = document.querySelectorAll('.player').length + 1;
+        let newPlayer = createPlayerBoard(playerNum);
+        document.getElementById('playerContainer').innerHTML += newPlayer;
+    }
+
+    function removePlayer(playerNum) {
+        let playerToRemove = document.getElementById(`player${playerNum}`);
+        if (playerToRemove) {
+            playerToRemove.remove();
+        }
+    }
+
+    // 初始化三位玩家
+    for (let i = 1; i <= 3; i++) {
+        document.getElementById('playerContainer').innerHTML += createPlayerBoard(i);
+    }
+
+    document.getElementById('addPlayer').addEventListener('click', addPlayer);
 </script>
 
 </body>
