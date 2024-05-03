@@ -2,71 +2,24 @@
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>响应式斗地主计分板</title>
+    <title>动态玩家列表与得分调整</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f0f0f0;
-            padding: 30px;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-        .player-scoreboard {
-            display: flex;
-            justify-content: space-around;
-            flex-wrap: wrap;
-            gap: 20px;
-            margin-bottom: 40px;
-        }
         .player {
-            background-color: white;
-            border-radius: 10px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            width: calc(33% - 10px); /* 考虑到gap */
-        }
-        h3 {
-            margin-top: 0;
-            color: #333;
-        }
-        p {
-            margin-bottom: 10px;
-        }
-        button {
-            width: 50px;
-            height: 30px;
-            border: none;
-            border-radius: 5px;
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #45a049;
-        }
-        @media (max-width: 600px) {
-            .player {
-                width: calc(50% - 10px); /* 在小屏上每行两个玩家 */
-            }
-        }
-        @media (max-width: 470px) {
-            .player {
-                width: 100%; /* 在更小的屏幕上堆叠玩家 */
-            }
+            margin-bottom: 1em;
         }
     </style>
 </head>
 <body>
+
+<input type="text" id="playerNameInput" placeholder="输入玩家名字（可选）">
 <button id="addPlayer">添加玩家</button>
 <div id="playerContainer"></div>
 
 <script>
-    function createPlayerBoard(playerNum) {
+    function createPlayerBoard(playerNum, playerName = `玩家${playerNum}`) {
         return `
             <div class="player" id="player${playerNum}">
-                <h3>玩家${playerNum}</h3>
+                <h3>${playerName}</h3>
                 <p>分数: <span id="score${playerNum}">0</span></p>
                 <button onclick="adjustScore(${playerNum}, 1)">+</button>
                 <button onclick="adjustScore(${playerNum}, -1)">-</button>
@@ -82,17 +35,23 @@
         scoreElement.textContent = newScore;
     }
 
-    function addPlayer() {
-        let playerNum = document.querySelectorAll('.player').length + 1;
-        let newPlayer = createPlayerBoard(playerNum);
-        document.getElementById('playerContainer').innerHTML += newPlayer;
-    }
-
     function removePlayer(playerNum) {
         let playerToRemove = document.getElementById(`player${playerNum}`);
         if (playerToRemove) {
             playerToRemove.remove();
         }
+    }
+
+    function addPlayer() {
+        let playerName = document.getElementById('playerNameInput').value.trim();
+        let playerNum = document.querySelectorAll('.player').length + 1;
+        
+        let effectiveName = playerName || `玩家${playerNum}`;
+        
+        let newPlayer = createPlayerBoard(playerNum, effectiveName);
+        document.getElementById('playerContainer').innerHTML += newPlayer;
+        
+        document.getElementById('playerNameInput').value = ''; // 清空输入框
     }
 
     // 初始化三位玩家
