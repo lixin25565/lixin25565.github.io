@@ -4,8 +4,56 @@
     <meta charset="UTF-8">
     <title>动态玩家列表与得分调整</title>
     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            padding: 30px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .player-scoreboard {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-bottom: 40px;
+        }
         .player {
-            margin-bottom: 1em;
+            background-color: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
+            width: calc(33% - 10px); /* 考虑到gap */
+        }
+        h3 {
+            margin-top: 0;
+            color: #333;
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        button {
+            width: 50px;
+            height: 30px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        @media (max-width: 600px) {
+            .player {
+                width: calc(50% - 10px); /* 在小屏上每行两个玩家 */
+            }
+        }
+        @media (max-width: 470px) {
+            .player {
+                width: 100%; /* 在更小的屏幕上堆叠玩家 */
+            }
         }
     </style>
 </head>
