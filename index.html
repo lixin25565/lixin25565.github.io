@@ -1,101 +1,109 @@
 <!DOCTYPE html>
 <html lang="zh">
-<head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <meta charset="UTF-8">
-    <title>记分板</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 700px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f5f5f5;
-        }
-        h3 {
-            margin-top: 0;
-        }
-        .player {
-            display:inline-block;
-            background-color: white;
-            border-radius: 5px;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            margin-bottom: 15px;
-        }
-        button {
-            background-color: #007BFF;
-            color: white;
-            border: none;
-            padding: 5px 10px;
-            cursor: pointer;
-            border-radius: 3px;
-            margin-right: 5px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        input[type="text"] {
-            padding: 8px;
-            border-radius: 3px;
-            border: 1px solid #ccc;
-            width: 200px;
-        }
-        #addPlayer {
-            margin-left: 10px;
-        }
-    </style>
-</head>
-<body>
-<input type="text" id="playerNameInput" placeholder="输入名字（可选）">
-<button id="addPlayer">添加</button>
-<div id="playerContainer"></div>
-<script>
-    function createPlayerBoard(playerNum, playerName = `玩家${playerNum}`) {
-        return `
-            <div class="player" id="player${playerNum}">
-                <h3>${playerName}</h3>
-                <p>分数: <span id="score${playerNum}">0</span></p>
-                <button onclick="adjustScore(${playerNum}, 1)">+</button>
-                <button onclick="adjustScore(${playerNum}, -1)">-</button>
-                <button onclick="removePlayer(${playerNum})">移除</button>
-            </div>
-        `;
-    }
-
-    function adjustScore(playerNum, adjustment) {
-        var scoreElement = document.getElementById(`score${playerNum}`);
-        var currentScore = parseInt(scoreElement.textContent);
-        var newScore = currentScore + adjustment;
-        scoreElement.textContent = newScore;
-    }
-
-    function removePlayer(playerNum) {
-        let playerToRemove = document.getElementById(`player${playerNum}`);
-        if (playerToRemove) {
-            playerToRemove.remove();
-        }
-    }
-
-    function addPlayer() {
-        let playerName = document.getElementById('playerNameInput').value.trim();
-        let playerNum = document.querySelectorAll('.player').length + 1;
-        
-        let effectiveName = playerName || `玩家${playerNum}`;
-        
-        let newPlayer = createPlayerBoard(playerNum, effectiveName);
-        document.getElementById('playerContainer').innerHTML += newPlayer;
-        
-        document.getElementById('playerNameInput').value = ''; // 清空输入框
-    }
-
-    // 初始化三位玩家
-    for (let i = 1; i <= 3; i++) {
-        document.getElementById('playerContainer').innerHTML += createPlayerBoard(i);
-    }
-
-    document.getElementById('addPlayer').addEventListener('click', addPlayer);
-</script>
-
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+        <title>记分板</title>
+        <style>
+            body {
+                font-family: Arial, sans-serif;
+                max-width: 700px;
+                margin: 0 auto;
+                padding: 20px;
+                background-color: #f5f5f5;
+            }
+            h3, h6, p {
+                margin: 0;
+            }
+            .player {
+                position: relative; /* 添加相对定位 */
+                display: inline-block;
+                background-color: white;
+                border-radius: 5px;
+                padding: 15px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+                margin-bottom: 15px;
+            }
+            button {
+                background-color: #007BFF;
+                color: white;
+                border: none;
+                padding: 5px 10px;
+                cursor: pointer;
+                border-radius: 3px;
+                margin-right: 5px;
+            }
+            button:hover {
+                background-color: #007bff90;
+            }
+            input[type="text"] {
+                padding: 8px;
+                border-radius: 1px;
+                border: 1px solid #ccc;
+                width: auto;
+            }
+            #addPlayer {
+                margin-left: -5px;
+                height: 31px;
+            }
+            /* 新增样式 */
+            .remove-button {
+                position: absolute;
+                top: 2px;
+                right: 0px;
+                background: none;
+                border: none;
+                font-size: 12px;
+                line-height: 0;
+                color: #aaa;
+                cursor: pointer;
+            }
+            .remove-button:hover {
+                background-color: #ff000010;
+                color: #ff000088;
+            }
+        </style>
+    </head>
+    <body>
+        <input type="text" id="playerNameInput" placeholder="输入名字（可选）">
+        <button id="addPlayer">添加</button>
+        <div id="playerContainer"></div>
+        <script>
+            function createPlayerBoard(playerNum, playerName = `玩家${playerNum}`) {
+                return `
+                    <div class="player" id="player${playerNum}">
+                        <h3>${playerName}</h3>
+                        <p>分数:</p><h1 align="center"><span id="score${playerNum}">0</span></h1>
+                        <button onclick="adjustScore(${playerNum}, 1)">+</button>
+                        <button onclick="adjustScore(${playerNum}, -1)">-</button>
+                        <!-- 修改为X按钮并应用新样式 -->
+                        <button class="remove-button" onclick="removePlayer(${playerNum})">&times;</button>
+                    </div>
+                `;
+            }
+            function adjustScore(playerNum, adjustment) {
+                var scoreElement = document.getElementById(`score${playerNum}`);
+                var currentScore = parseInt(scoreElement.textContent, 10);
+                var newScore = currentScore + adjustment;
+                scoreElement.textContent = newScore;
+            }
+            function removePlayer(playerNum) {
+                var playerToRemove = document.getElementById(`player${playerNum}`);
+                if (playerToRemove) playerToRemove.remove();
+            }
+            function addPlayer() {
+                var playerName = document.getElementById('playerNameInput').value.trim();
+                var playerNum = document.querySelectorAll('.player').length + 1;
+                var effectiveName = playerName || `玩家${playerNum}`;
+                var newPlayer = createPlayerBoard(playerNum, effectiveName);
+                document.getElementById('playerContainer').innerHTML += newPlayer;
+                document.getElementById('playerNameInput').value = ''; // 清空输入框
+            }
+            // 初始化三位玩家
+            for (var i = 1; i <= 3; i++) {
+                document.getElementById('playerContainer').innerHTML += createPlayerBoard(i);
+            }
+            document.getElementById('addPlayer').addEventListener('click', addPlayer);
+        </script>
+    </body>
 </html>
